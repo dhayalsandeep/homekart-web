@@ -1,0 +1,179 @@
+@import "tailwindcss";
+
+/* Static design tokens — see src/lib/config/tokens.ts for how each colour was measured. */
+@theme {
+  --color-brand-50: #fdf3ee;
+  --color-brand-100: #f8ded1;
+  --color-brand-200: #f0bca3;
+  --color-brand-400: #de8058;
+  /* Measured from the official logo. Large text and UI fills only: 3.57:1 on white. */
+  --color-brand-500: #d36946;
+  /* Accessible action colour, 5.54:1 on white and with a white label. */
+  --color-brand-600: #b4441f;
+  --color-brand-700: #93371a;
+
+  --color-ink: #292929;
+  --color-ink-soft: #756b64;
+  --color-warm-white: #fff8f1;
+  --color-cream: #f7efe6;
+  --color-sand: #ead8c8;
+  --color-line: #e9ded4;
+
+  --color-positive: #0f6b3c;
+  --color-positive-bg: #dff5e8;
+  --color-negative: #9b1c1c;
+
+  --container-shell: 1320px;
+  --container-inner: 1180px;
+
+  --radius-card: 16px;
+  --radius-tile: 12px;
+
+  --shadow-card: 0 1px 2px rgba(41, 41, 41, 0.04), 0 8px 24px -12px rgba(41, 41, 41, 0.12);
+  --shadow-pop: 0 12px 40px -12px rgba(41, 41, 41, 0.22);
+}
+
+/* Font variables are injected by next/font at runtime, so they must be resolved inline. */
+@theme inline {
+  --font-sans: var(--font-homekart-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: var(--font-homekart-display), var(--font-homekart-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-warm-white);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand-600);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    color: var(--color-ink);
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  img,
+  svg {
+    display: block;
+    max-width: 100%;
+  }
+}
+
+/* Horizontal rails (category rows, deal carousels) must not show a scrollbar on desktop. */
+@utility no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility shell {
+  width: 100%;
+  max-width: var(--container-shell);
+  margin-inline: auto;
+  padding-inline: 16px;
+  @media (min-width: 768px) {
+    padding-inline: 24px;
+  }
+  @media (min-width: 1280px) {
+    padding-inline: 32px;
+  }
+}
+
+/*
+ * Product descriptions come from the merchant's Shopify Rich Text Editor, so the
+ * markup is a fixed set of semantic tags with no classes on it. This scopes the
+ * styles to that content only instead of relying on Tailwind Typography, which
+ * would also reset the `text-sm`/`text-ink-soft` the surrounding component sets.
+ */
+@utility prose-homekart {
+  & h2 {
+    font-size: 1.0625rem;
+    font-weight: 700;
+    margin-block: 1.25em 0.5em;
+  }
+  & h3 {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    margin-block: 1.15em 0.4em;
+  }
+  & h4,
+  & h5,
+  & h6 {
+    font-weight: 700;
+    margin-block: 1em 0.35em;
+  }
+  & p {
+    margin-block: 0 0.85em;
+  }
+  & ul {
+    list-style: disc;
+    padding-inline-start: 1.25em;
+    margin-block: 0 0.85em;
+  }
+  & ol {
+    list-style: decimal;
+    padding-inline-start: 1.25em;
+    margin-block: 0 0.85em;
+  }
+  & li {
+    margin-block: 0.25em;
+  }
+  & a {
+    color: var(--color-brand-600);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  & strong {
+    font-weight: 700;
+    color: var(--color-ink);
+  }
+  & blockquote {
+    border-inline-start: 3px solid var(--color-sand);
+    padding-inline-start: 0.9em;
+    margin-block: 0.85em;
+  }
+  & table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-block: 1em;
+  }
+  & th,
+  & td {
+    border: 1px solid var(--color-line);
+    padding: 0.4em 0.6em;
+    text-align: start;
+  }
+  & > :last-child {
+    margin-block-end: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
